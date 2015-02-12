@@ -1,0 +1,9 @@
+Package: [[name]]
+Section: misc
+Priority: optional
+Architecture: all
+Depends: openjdk-7-jre-headless | openjdk-7-jre
+Version: [[version]]-[[timestamp]]-[[buildNumber]]
+Maintainer: Victor Ion Munteanu <victor.munteanu@equillon.ro>
+Description: Watchtower-Automation
+  Gets commands which it executes on top of various automation environments.

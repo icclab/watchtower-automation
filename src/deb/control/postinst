@@ -1,0 +1,16 @@
+#!/bin/sh
+
+case "$1" in
+  configure)
+  	if ! [ `getent passwd watchtower` ]; then
+      adduser --system --group watchtower
+    fi
+    
+    if ! [ -d "/var/log/watchtower" ]; then
+      mkdir -p /var/log/watchtower
+      chown watchtower:watchtower /var/log/watchtower
+    fi
+  ;;
+esac
+
+exit 0
