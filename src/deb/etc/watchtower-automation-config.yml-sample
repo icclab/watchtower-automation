@@ -1,3 +1,4 @@
+# Watchtower automation configuration
 name: watchtower-automation
 
 # Select between automation providers, currently only Rundeck available
