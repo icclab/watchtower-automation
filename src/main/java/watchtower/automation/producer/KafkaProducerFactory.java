@@ -11,11 +11,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package watchtower.automation.provider;
+package watchtower.automation.producer;
 
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
-import watchtower.automation.producer.KafkaProducer;
 
-public interface RundeckProviderFactory {
-  RundeckProvider create(WatchtowerAutomationConfiguration configuration, KafkaProducer kafkaProducer); 
+public interface KafkaProducerFactory {
+  KafkaProducer create(WatchtowerAutomationConfiguration configuration);
 }

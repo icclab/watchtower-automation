@@ -20,6 +20,8 @@ import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
 import watchtower.automation.consumer.KafkaCommandsConsumer;
 import watchtower.automation.consumer.KafkaCommandsConsumerFactory;
 import watchtower.automation.health.KafkaHealthCheck;
+import watchtower.automation.producer.KafkaProducer;
+import watchtower.automation.producer.KafkaProducerFactory;
 import watchtower.automation.provider.Provider;
 import watchtower.automation.provider.ProviderFactory;
 import io.dropwizard.Application;
@@ -42,10 +44,15 @@ public class WatchtowerAutomationApplication extends Application<WatchtowerAutom
     
     environment.healthChecks().register("kafka-health-check", KafkaHealthCheck.getInstance());
     
+    final KafkaProducerFactory kafkaProducerFactory =
+        injector.getInstance(KafkaProducerFactory.class);
+    
+    final KafkaProducer kafkaProducer = kafkaProducerFactory.create(configuration);
+    
     final ProviderFactory providerFactory =
         injector.getInstance(ProviderFactory.class);
     
-    final Provider provider = providerFactory.create(configuration);
+    final Provider provider = providerFactory.create(configuration, kafkaProducer);
     
     environment.lifecycle().manage(provider);
     
@@ -55,7 +62,6 @@ public class WatchtowerAutomationApplication extends Application<WatchtowerAutom
     final KafkaCommandsConsumer kafkaEventsConsumer = kafkaEventsConsumerFactory.create(configuration, provider);
     
     environment.lifecycle().manage(kafkaEventsConsumer);
-    
   }
 
   @Override

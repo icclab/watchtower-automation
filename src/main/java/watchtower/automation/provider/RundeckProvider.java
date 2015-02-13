@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
+import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
 
 public class RundeckProvider extends Provider {
@@ -24,12 +25,12 @@ public class RundeckProvider extends Provider {
   private RundeckProviderRunnableFactory rundeckProviderRunnableFactory;
   
   @Inject
-  public RundeckProvider(@Assisted WatchtowerAutomationConfiguration configuration) {
-    super(configuration);
+  public RundeckProvider(@Assisted WatchtowerAutomationConfiguration configuration, @Assisted KafkaProducer kafkaProducer) {
+    super(configuration, kafkaProducer);
   }
 
   @Override
   protected ProviderRunnable createRunnable(Job job) {
-    return rundeckProviderRunnableFactory.create(providerConfiguration, job);
+    return rundeckProviderRunnableFactory.create(providerConfiguration, kafkaProducer, job);
   }
 }

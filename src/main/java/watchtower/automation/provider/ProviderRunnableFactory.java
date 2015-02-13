@@ -14,8 +14,9 @@
 package watchtower.automation.provider;
 
 import watchtower.automation.configuration.ProviderConfiguration;
+import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
 
 public interface ProviderRunnableFactory {
-  ProviderRunnable create(ProviderConfiguration configuration, Job job);
+  ProviderRunnable create(ProviderConfiguration configuration, KafkaProducer kafkaProducer, Job job);
 }

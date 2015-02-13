@@ -26,6 +26,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import watchtower.automation.configuration.ProviderConfiguration;
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
+import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
 import io.dropwizard.lifecycle.Managed;
 
@@ -33,11 +34,13 @@ public abstract class Provider implements Managed {
   private static final Logger logger = LoggerFactory.getLogger(Provider.class);
   
   protected final ProviderConfiguration providerConfiguration;
+  protected final KafkaProducer kafkaProducer;
   private ExecutorService executorService;
   
   @Inject
-  public Provider(@Assisted WatchtowerAutomationConfiguration configuration) {
+  public Provider(@Assisted WatchtowerAutomationConfiguration configuration, @Assisted KafkaProducer kafkaProducer) {
     this.providerConfiguration = configuration.getAutomationProviderConfiguration();
+    this.kafkaProducer = kafkaProducer;
   }
 
   public void start() throws Exception {

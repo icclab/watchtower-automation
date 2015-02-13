@@ -14,7 +14,8 @@
 package watchtower.automation.provider;
 
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
+import watchtower.automation.producer.KafkaProducer;
 
 public interface ProviderFactory {
-  Provider create(WatchtowerAutomationConfiguration configuration);
+  Provider create(WatchtowerAutomationConfiguration configuration, KafkaProducer kafkaProducer);
 }

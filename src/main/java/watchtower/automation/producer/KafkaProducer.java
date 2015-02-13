@@ -1,4 +1,17 @@
-package watchtower.automation.consumer;
+/*
+ * Copyright 2015 Zurich University of Applied Sciences
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package watchtower.automation.producer;
 
 import java.util.Properties;
 
@@ -9,8 +22,11 @@ import kafka.producer.ProducerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import watchtower.automation.configuration.KafkaProducerConfiguration;
-import watchtower.common.automation.Job;
+import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
 import watchtower.common.automation.JobResult;
 
 public class KafkaProducer {
@@ -19,17 +35,18 @@ public class KafkaProducer {
   private final KafkaProducerConfiguration producerConfiguration;
   private final Producer<String, String> producer;
   
-  public KafkaProducer(KafkaProducerConfiguration producerConfiguration) {
-    this.producerConfiguration = producerConfiguration;
+  @Inject
+  public KafkaProducer(@Assisted WatchtowerAutomationConfiguration configuration) {
+    this.producerConfiguration = configuration.getKafkaProducerConfiguration();
     ProducerConfig producerConfig = new ProducerConfig(getKafkaProperties());
     producer = new Producer<String, String>(producerConfig);
   }
   
-  public void send(Job job, JobResult result) {
-    logger.debug("Sending job results for {}: {}", job.getId(), result.toString());
+  public void send(JobResult result) {
+    logger.debug("Sending job results for {}: {}", result.getJobId(), result.toString());
     
     final KeyedMessage<String, String> message =
-        new KeyedMessage<String, String>(producerConfiguration.getTopic(), job.getId(), result.toString());
+        new KeyedMessage<String, String>(producerConfiguration.getTopic(), result.getJobId(), result.toString());
     
     producer.send(message);
   }

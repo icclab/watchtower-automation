@@ -14,8 +14,9 @@
 package watchtower.automation.provider;
 
 import watchtower.automation.configuration.ProviderConfiguration;
+import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
 
 public interface RundeckProviderRunnableFactory {
-  RundeckProviderRunnable create(ProviderConfiguration providerConfiguration, Job job);
+  RundeckProviderRunnable create(ProviderConfiguration providerConfiguration, KafkaProducer kafkaProducer, Job job);
 }

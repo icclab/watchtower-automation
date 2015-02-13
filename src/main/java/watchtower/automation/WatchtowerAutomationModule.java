@@ -21,6 +21,8 @@ import watchtower.automation.consumer.KafkaCommandsConsumer;
 import watchtower.automation.consumer.KafkaCommandsConsumerFactory;
 import watchtower.automation.consumer.KafkaCommandsConsumerRunnable;
 import watchtower.automation.consumer.KafkaCommandsConsumerRunnableFactory;
+import watchtower.automation.producer.KafkaProducer;
+import watchtower.automation.producer.KafkaProducerFactory;
 import watchtower.automation.provider.Provider;
 import watchtower.automation.provider.ProviderRunnable;
 import watchtower.automation.provider.RundeckProvider;
@@ -53,6 +55,9 @@ public class WatchtowerAutomationModule extends AbstractModule {
     
     install(new FactoryModuleBuilder().implement(KafkaCommandsConsumer.class, KafkaCommandsConsumer.class)
         .build(KafkaCommandsConsumerFactory.class));
+    
+    install(new FactoryModuleBuilder().implement(KafkaProducer.class, KafkaProducer.class)
+        .build(KafkaProducerFactory.class));
     
     if (configuration.getAutomationProvider().equalsIgnoreCase("rundeck")) {
       install(new FactoryModuleBuilder().implement(RundeckProviderRunnable.class, RundeckProviderRunnable.class)

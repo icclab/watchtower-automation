@@ -22,9 +22,14 @@ import org.rundeck.api.domain.RundeckExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import watchtower.automation.configuration.ProviderConfiguration;
 import watchtower.automation.configuration.RundeckProviderConfiguration;
+import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
+import watchtower.common.automation.JobResult;
 
 public class RundeckProviderRunnable extends ProviderRunnable {
   private static final Logger logger = LoggerFactory.getLogger(RundeckProviderRunnable.class);
@@ -32,8 +37,9 @@ public class RundeckProviderRunnable extends ProviderRunnable {
   private RundeckExecution rundeckExecution;
   
   @SuppressWarnings("deprecation")
-  public RundeckProviderRunnable(ProviderConfiguration providerConfiguration, Job job) {
-    super(providerConfiguration, job);
+  @Inject
+  public RundeckProviderRunnable(@Assisted ProviderConfiguration providerConfiguration, @Assisted KafkaProducer kafkaProducer, @Assisted Job job) {
+    super(providerConfiguration, kafkaProducer, job);
     
     RundeckProviderConfiguration rundeckProviderConfiguration = (RundeckProviderConfiguration) providerConfiguration;
     
@@ -57,6 +63,9 @@ public class RundeckProviderRunnable extends ProviderRunnable {
       rundeckExecution = rundeckClient.runJob(RunJobBuilder.builder()
           .setJobId(job.getId()).setOptions(optionBuilder.toProperties())
           .build(), 1, TimeUnit.MINUTES);
+      
+      returnJobResults(new JobResult(job.getId(), rundeckExecution.toString()));
+      
       logger.debug("Execution finished: {}", rundeckExecution.toString());
     } catch (Exception e) {
       e.printStackTrace();
