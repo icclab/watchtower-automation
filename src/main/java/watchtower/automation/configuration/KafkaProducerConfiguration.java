@@ -15,67 +15,67 @@ package watchtower.automation.configuration;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class KafkaProducerConfiguration implements Serializable {
 
   private static final long serialVersionUID = -576317721403416680L;
 
-  @JsonProperty
+  @NotEmpty
   String topic;
 
-  @JsonProperty
+  @NotEmpty
   String metadataBrokerList;
 
-  @JsonProperty
+  @NotEmpty
   Integer requestRequiredAcks;
 
-  @JsonProperty
+  @NotEmpty
   Integer requestTimeoutMs;
 
-  @JsonProperty
+  @NotEmpty
   String producerType;
 
-  @JsonProperty
+  @NotEmpty
   String serializerClass;
 
-  @JsonProperty
+  @NotEmpty
   String keySerializerClass;
 
-  @JsonProperty
+  @NotEmpty
   String partitionerClass;
 
-  @JsonProperty
+  @NotEmpty
   String compressionCodec;
 
-  @JsonProperty
+  @NotEmpty
   String compressedTopics;
 
-  @JsonProperty
+  @NotEmpty
   Integer messageSendMaxRetries;
 
-  @JsonProperty
+  @NotEmpty
   Integer retryBackoffMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer topicMetadataRefreshIntervalMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer queueBufferingMaxMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer queueBufferingMaxMessages;
 
-  @JsonProperty
+  @NotEmpty
   Integer queueEnqueueTimeoutMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer batchNumMessages;
 
-  @JsonProperty
+  @NotEmpty
   Integer sendBufferBytes;
 
-  @JsonProperty
+  @NotEmpty
   String clientId;
 
 

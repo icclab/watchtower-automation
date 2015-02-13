@@ -13,22 +13,24 @@
  */
 package watchtower.automation.configuration;
 
+import io.dropwizard.validation.ValidationMethod;
+
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class RundeckProviderConfiguration extends ProviderConfiguration implements Serializable {
   
   private static final long serialVersionUID = -5516729044896223698L;
 
-  @NotNull
+  @NotEmpty
   private String url;
   
   private String username;
   private String password;
   private String token;
   
-  @NotNull
+  @NotEmpty
   private String project;
   
   @Override
@@ -54,5 +56,17 @@ public class RundeckProviderConfiguration extends ProviderConfiguration implemen
   
   public String getProject() {
     return project;
+  }
+  
+  @ValidationMethod(message="Invalid authentication")
+  public boolean isAuthenticationValid() {
+    if (token != null && !token.isEmpty())
+      return true;
+    
+    if (username != null && !username.isEmpty()
+        && password != null && password.isEmpty())
+      return true;
+    
+    return false;
   }
 }

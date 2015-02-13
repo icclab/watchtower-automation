@@ -15,76 +15,76 @@ package watchtower.automation.configuration;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class KafkaConsumerConfiguration implements Serializable {
 
   private static final long serialVersionUID = 6312614514245347452L;
 
-  @JsonProperty
+  @NotEmpty
   String topic;
 
-  @JsonProperty
+  @NotEmpty
   Integer numThreads;
 
-  @JsonProperty
+  @NotEmpty
   String groupId;
 
-  @JsonProperty
+  @NotEmpty
   String zookeeperConnect;
 
-  @JsonProperty
+  @NotEmpty
   String consumerId;
 
-  @JsonProperty
+  @NotEmpty
   Integer socketTimeoutMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer socketReceiveBufferBytes;
 
-  @JsonProperty
+  @NotEmpty
   Integer fetchMessageMaxBytes;
 
-  @JsonProperty
+  @NotEmpty
   Boolean autoCommitEnable;
 
-  @JsonProperty
+  @NotEmpty
   Integer autoCommitIntervalMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer queuedMaxMessageChunks;
 
-  @JsonProperty
+  @NotEmpty
   Integer rebalanceMaxRetries;
 
-  @JsonProperty
+  @NotEmpty
   Integer fetchMinBytes;
 
-  @JsonProperty
+  @NotEmpty
   Integer fetchWaitMaxMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer rebalanceBackoffMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer refreshLeaderBackoffMs;
 
-  @JsonProperty
+  @NotEmpty
   String autoOffsetReset;
 
-  @JsonProperty
+  @NotEmpty
   Integer consumerTimeoutMs;
 
-  @JsonProperty
+  @NotEmpty
   String clientId;
 
-  @JsonProperty
+  @NotEmpty
   Integer zookeeperSessionTimeoutMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer zookeeperConnectionTimeoutMs;
 
-  @JsonProperty
+  @NotEmpty
   Integer zookeeperSyncTimeMs;
 
   public String getTopic() {

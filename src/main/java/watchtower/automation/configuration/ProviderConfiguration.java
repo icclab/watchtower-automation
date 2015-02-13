@@ -13,7 +13,10 @@
  */
 package watchtower.automation.configuration;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public abstract class ProviderConfiguration {
+  @NotEmpty
   private int numThreads;
   
   public int getNumThreads() {
