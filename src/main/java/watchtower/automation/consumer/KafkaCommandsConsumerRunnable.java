@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 import kafka.consumer.KafkaStream;
 import watchtower.automation.provider.Provider;
 import watchtower.common.automation.Command;
-import watchtower.common.automation.ExecuteJobCommand;
+import watchtower.common.automation.CommandType;
 
 public class KafkaCommandsConsumerRunnable extends KafkaConsumerRunnable<Command> {
   private static final Logger logger = LoggerFactory.getLogger(KafkaCommandsConsumerRunnable.class);
@@ -44,8 +44,8 @@ public class KafkaCommandsConsumerRunnable extends KafkaConsumerRunnable<Command
     try {
       final Command command = objectMapper.readValue(message, Command.class);
       
-      if (command instanceof ExecuteJobCommand)
-        provider.executeJob(((ExecuteJobCommand) command).getJob());
+      if (command.getType() == CommandType.CREATE_JOB)
+        provider.executeJob(command.getJob());
       
       logger.debug("{}", command);
     } catch (Exception e) {
