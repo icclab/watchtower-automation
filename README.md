@@ -8,12 +8,12 @@ Currently, it only supports Rundeck for job execution.
 
 ### Build Instructions
 
-The best way to install **watchtower-automation** is to download and build it with Maven. Please not it depends on **watchtower-common** which needs to be installed prior to it.
+The best way to install **watchtower-automation** is to download and build it with Maven. Please note it depends on **watchtower-common** which needs to be installed prior to it.
 
 ```
 git clone https://github.com/icclab/watchtower-automation.git
 cd watchtower-automation
-mvn clean install
+mvn clean package
 ```
 
 Besides the `jar` file, an additional output is the `deb` package which can be easility installed on Debian based linux. It will add a **watchtower-automation** service, however it first needs to be configured by editing and renaming ```watchtower-automation-config.yml-sample``` in ```/etc/watchtower```.

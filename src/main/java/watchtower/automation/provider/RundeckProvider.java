@@ -13,24 +13,31 @@
  */
 package watchtower.automation.provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Singleton;
 
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
 import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
 
+@Singleton
 public class RundeckProvider extends Provider {
+  private static final Logger logger = LoggerFactory.getLogger(Provider.class);
+  
   @Inject
   private RundeckProviderRunnableFactory rundeckProviderRunnableFactory;
   
   @Inject
-  public RundeckProvider(@Assisted WatchtowerAutomationConfiguration configuration, @Assisted KafkaProducer kafkaProducer) {
+  public RundeckProvider(WatchtowerAutomationConfiguration configuration, KafkaProducer kafkaProducer) {
     super(configuration, kafkaProducer);
   }
 
   @Override
   protected ProviderRunnable createRunnable(Job job) {
+    logger.info("Creating runnable in provider # " + this.hashCode());
     return rundeckProviderRunnableFactory.create(providerConfiguration, kafkaProducer, job);
   }
 }

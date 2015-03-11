@@ -16,20 +16,19 @@ package watchtower.automation.consumer;
 import kafka.consumer.KafkaStream;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Singleton;
 
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
 import watchtower.automation.provider.Provider;
 import watchtower.common.automation.Command;
 
+@Singleton
 public class KafkaCommandsConsumer extends KafkaConsumer<Command> {
   @Inject
   private KafkaCommandsConsumerRunnableFactory commandConsumerRunnableFactory;
-  @Inject
-  private Provider provider;
   
   @Inject
-  public KafkaCommandsConsumer(@Assisted WatchtowerAutomationConfiguration configuration, @Assisted Provider provider) {
+  public KafkaCommandsConsumer(WatchtowerAutomationConfiguration configuration, Provider provider) {
     super(configuration, provider);
   }
 

@@ -29,7 +29,6 @@ import watchtower.automation.configuration.ProviderConfiguration;
 import watchtower.automation.configuration.RundeckProviderConfiguration;
 import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
-import watchtower.common.automation.JobResult;
 
 public class RundeckProviderRunnable extends ProviderRunnable {
   private static final Logger logger = LoggerFactory.getLogger(RundeckProviderRunnable.class);
@@ -42,33 +41,31 @@ public class RundeckProviderRunnable extends ProviderRunnable {
     super(providerConfiguration, kafkaProducer, job);
     
     RundeckProviderConfiguration rundeckProviderConfiguration = (RundeckProviderConfiguration) providerConfiguration;
-    
-    if (rundeckProviderConfiguration.getToken().isEmpty())
+
+    if (rundeckProviderConfiguration.getToken() == null || rundeckProviderConfiguration.getToken().isEmpty()) {
       rundeckClient = new RundeckClient(rundeckProviderConfiguration.getUrl(), 
           rundeckProviderConfiguration.getUsername(), rundeckProviderConfiguration.getPassword());
-    else
+    } else
       rundeckClient = new RundeckClient(rundeckProviderConfiguration.getUrl(),
           rundeckProviderConfiguration.getToken());
   }
 
   public void run() {
-    logger.debug("Starting automation job: {}", job);
-    
-    OptionsBuilder optionBuilder = new OptionsBuilder();
-    
-    for (String key : job.getParameters().keySet())
-      optionBuilder.addOption(key, job.getParameters().get(key));
-    
+    logger.info("Starting automation job: {}", job);
     try {
+      OptionsBuilder optionBuilder = new OptionsBuilder();
+    
+      if (job.getParameters() != null)
+        for (String key : job.getParameters().keySet())
+          optionBuilder.addOption(key, job.getParameters().get(key));
+
       rundeckExecution = rundeckClient.runJob(RunJobBuilder.builder()
-          .setJobId(job.getId()).setOptions(optionBuilder.toProperties())
-          .build(), 1, TimeUnit.MINUTES);
+        .setJobId(job.getId()).setOptions(optionBuilder.toProperties())
+        .build(), 1, TimeUnit.SECONDS);
       
-      returnJobResults(new JobResult(job.getId(), rundeckExecution.toString()));
-      
-      logger.debug("Execution finished: {}", rundeckExecution.toString());
+      logger.info("Execution finished: {}", rundeckExecution.toString());
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.info("Failed to run automation job: {}", e);
     }
   }
 }

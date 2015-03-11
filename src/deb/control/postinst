@@ -2,13 +2,19 @@
 
 case "$1" in
   configure)
-  	if ! [ `getent passwd watchtower` ]; then
-      adduser --system --group watchtower
+  	if ! [ `egrep -i "^watchtower:" /etc/group` ]; then
+  	  addgroup --system watchtower
+  	fi
+  	
+  	if ! [ `getent passwd watchtower-automation` ]; then
+      adduser --system --group --no-create-home watchtower-automation
+      adduser watchtower-automation watchtower 
     fi
     
-    if ! [ -d "/var/log/watchtower" ]; then
-      mkdir -p /var/log/watchtower
-      chown watchtower:watchtower /var/log/watchtower
+    if ! [ -d "/var/log/watchtower/" ]; then
+      mkdir -p /var/log/watchtower/
+      chgrp watchtower /var/log/watchtower/
+      chmod g+w /var/log/watchtower/
     fi
   ;;
 esac

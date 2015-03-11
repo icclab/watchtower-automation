@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import watchtower.automation.configuration.KafkaProducerConfiguration;
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
@@ -36,7 +35,7 @@ public class KafkaProducer {
   private final Producer<String, String> producer;
   
   @Inject
-  public KafkaProducer(@Assisted WatchtowerAutomationConfiguration configuration) {
+  public KafkaProducer(WatchtowerAutomationConfiguration configuration) {
     this.producerConfiguration = configuration.getKafkaProducerConfiguration();
     ProducerConfig producerConfig = new ProducerConfig(getKafkaProperties());
     producer = new Producer<String, String>(producerConfig);

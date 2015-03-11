@@ -18,12 +18,9 @@ import com.google.inject.Injector;
 
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
 import watchtower.automation.consumer.KafkaCommandsConsumer;
-import watchtower.automation.consumer.KafkaCommandsConsumerFactory;
 import watchtower.automation.health.KafkaHealthCheck;
-import watchtower.automation.producer.KafkaProducer;
-import watchtower.automation.producer.KafkaProducerFactory;
 import watchtower.automation.provider.Provider;
-import watchtower.automation.provider.ProviderFactory;
+import watchtower.automation.resources.JobsResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -42,24 +39,15 @@ public class WatchtowerAutomationApplication extends Application<WatchtowerAutom
   public void run(WatchtowerAutomationConfiguration configuration, Environment environment) throws Exception {
     Injector injector = Guice.createInjector(new WatchtowerAutomationModule(configuration, environment));
     
+    environment.jersey().register(injector.getInstance(JobsResource.class));
+    
     environment.healthChecks().register("kafka-health-check", KafkaHealthCheck.getInstance());
     
-    final KafkaProducerFactory kafkaProducerFactory =
-        injector.getInstance(KafkaProducerFactory.class);
-    
-    final KafkaProducer kafkaProducer = kafkaProducerFactory.create(configuration);
-    
-    final ProviderFactory providerFactory =
-        injector.getInstance(ProviderFactory.class);
-    
-    final Provider provider = providerFactory.create(configuration, kafkaProducer);
-    
+    final Provider provider = injector.getInstance(Provider.class);
+
     environment.lifecycle().manage(provider);
     
-    final KafkaCommandsConsumerFactory kafkaEventsConsumerFactory = 
-        injector.getInstance(KafkaCommandsConsumerFactory.class);
-    
-    final KafkaCommandsConsumer kafkaEventsConsumer = kafkaEventsConsumerFactory.create(configuration, provider);
+    final KafkaCommandsConsumer kafkaEventsConsumer = injector.getInstance(KafkaCommandsConsumer.class);
     
     environment.lifecycle().manage(kafkaEventsConsumer);
   }

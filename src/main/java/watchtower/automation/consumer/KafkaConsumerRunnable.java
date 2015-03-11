@@ -46,9 +46,9 @@ public abstract class KafkaConsumerRunnable<T> implements Runnable {
     while (running) {
       try {
         if (streamIterator.hasNext()) {
-          final String message = new String(streamIterator.next().message());
+          final byte[] message = streamIterator.next().message();
           
-          logger.debug("Thread {}: {}", threadNumber, message);
+          logger.debug("Thread {}: {}", threadNumber, message.toString());
           
           consumeMessage(message);
         }
@@ -60,5 +60,5 @@ public abstract class KafkaConsumerRunnable<T> implements Runnable {
     }
   }
   
-  abstract protected void consumeMessage(String message);
+  abstract protected void consumeMessage(byte[] message);
 }

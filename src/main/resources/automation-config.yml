@@ -1,13 +1,22 @@
 # Watchtower automation configuration
 name: watchtower-automation
 
+# Server configuration
+server:
+  applicationConnectors:
+    - type: http
+      port: 9020
+  adminConnectors:
+    - type: http
+      port: 9021
+
 # Select between automation providers, currently only Rundeck available
 automationProvider: rundeck
 
 # Rundeck configuration
 # Please select between username/password and token authentication
 rundeckProviderConfiguration:
-  url: http://watchtower:4440
+  url: http://160.85.4.226:4440
   username: admin
   password: admin
   # token: PDDNKo5VE29kpk4prOUDr2rsKdRkEvsD
@@ -70,6 +79,12 @@ logging:
     watchtower.automation: info
   
   appenders:
+    - type: console
+      threshold: ALL
+      timeZone: UTC
+      target: stdout
+      logFormat: # TODO
+      
     - type: file
       currentLogFilename: /var/log/watchtower/watchtower-automation.log
       threshold: info

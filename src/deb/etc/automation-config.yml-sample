@@ -1,0 +1,95 @@
+# Watchtower automation configuration
+name: watchtower-automation
+
+# Server configuration
+server:
+  applicationConnectors:
+    - type: http
+      port: 9020
+  adminConnectors:
+    - type: http
+      port: 9021
+
+# Select between automation providers, currently only Rundeck available
+automationProvider: rundeck
+
+# Rundeck configuration
+# Please select between username/password and token authentication
+rundeckProviderConfiguration:
+  url: http://watchtower:4440
+  username: admin
+  password: admin
+  # token: PDDNKo5VE29kpk4prOUDr2rsKdRkEvsD
+  project: watchtower
+  numThreads: 2
+  
+# Kafka consumer configuration
+kafkaConsumerConfiguration:
+  topic: watchtower-automation-commands
+  numThreads: 2
+  groupId: watchtower-automation
+  zookeeperConnect: watchtower:2181
+  consumerId: 1
+  socketTimeoutMs: 30000
+  socketReceiveBufferBytes : 65536
+  fetchMessageMaxBytes: 1048576
+  autoCommitEnable: true
+  autoCommitIntervalMs: 60000
+  queuedMaxMessageChunks: 10
+  rebalanceMaxRetries: 4
+  fetchMinBytes:  1
+  fetchWaitMaxMs:  100
+  rebalanceBackoffMs: 2000
+  refreshLeaderBackoffMs: 200
+  autoOffsetReset: largest
+  consumerTimeoutMs:  -1
+  clientId : watchtower-automation-consumer
+  zookeeperSessionTimeoutMs : 6000
+  zookeeperConnectionTimeoutMs : 6000
+  zookeeperSyncTimeMs: 2000
+  
+# Kafka producer configuration
+kafkaProducerConfiguration:
+  topic: watchtower-automation-results
+  metadataBrokerList: watchtower:9092
+  serializerClass: kafka.serializer.StringEncoder
+  partitionerClass:
+  requestRequiredAcks: 1
+  requestTimeoutMs: 10000
+  producerType: sync
+  keySerializerClass:
+  compressionCodec: none
+  compressedTopics:
+  messageSendMaxRetries: 3
+  retryBackoffMs: 100
+  topicMetadataRefreshIntervalMs: 600000
+  queueBufferingMaxMs: 5000
+  queueBufferingMaxMessages: 10000
+  queueEnqueueTimeoutMs: -1
+  batchNumMessages: 200
+  sendBufferBytes: 102400
+  clientId : watchtower-automation-producer
+
+# Logging settings.
+logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: info
+  
+  loggers:
+    watchtower.automation: info
+  
+  appenders:
+    - type: console
+      threshold: ALL
+      timeZone: UTC
+      target: stdout
+      logFormat: # TODO
+      
+    - type: file
+      currentLogFilename: /var/log/watchtower/watchtower-automation.log
+      threshold: info
+      archive: true
+      archivedLogFilenamePattern: /var/log/watchtower/watchtower-automation-%d.log.gz
+      archivedFileCount: 5
+      timeZone: UTC
+      logFormat: # TODO

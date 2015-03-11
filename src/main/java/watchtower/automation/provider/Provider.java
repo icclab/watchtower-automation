@@ -66,7 +66,7 @@ public abstract class Provider implements Managed {
     }
   }
   
-  public void executeJob(Job job) {
+  public void runJob(Job job) {    
     try {
       executorService.submit(createRunnable(job));
     } catch (RejectedExecutionException ree) {

@@ -16,8 +16,6 @@ package watchtower.automation.consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -25,27 +23,23 @@ import kafka.consumer.KafkaStream;
 import watchtower.automation.provider.Provider;
 import watchtower.common.automation.Command;
 import watchtower.common.automation.CommandType;
+import watchtower.common.automation.CommandUtils;
 
 public class KafkaCommandsConsumerRunnable extends KafkaConsumerRunnable<Command> {
   private static final Logger logger = LoggerFactory.getLogger(KafkaCommandsConsumerRunnable.class);
-  private final ObjectMapper objectMapper;
   
   @Inject
   public KafkaCommandsConsumerRunnable(@Assisted KafkaStream<byte[], byte[]> stream, @Assisted int threadNumber, Provider provider) {
     super(stream, threadNumber, provider);
-    
-    objectMapper = new ObjectMapper();
-    objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-    objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
   }
 
   @Override
-  protected void consumeMessage(String message) {
+  protected void consumeMessage(byte[] message) {
     try {
-      final Command command = objectMapper.readValue(message, Command.class);
+      final Command command = CommandUtils.fromJson(message);
       
-      if (command.getType() == CommandType.CREATE_JOB)
-        provider.executeJob(command.getJob());
+      if (command.getType() == CommandType.RUN_JOB)
+        provider.runJob(command.getJob());
       
       logger.debug("{}", command);
     } catch (Exception e) {

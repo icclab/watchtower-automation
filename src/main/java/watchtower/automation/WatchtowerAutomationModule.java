@@ -24,7 +24,6 @@ import watchtower.automation.consumer.KafkaCommandsConsumerRunnableFactory;
 import watchtower.automation.producer.KafkaProducer;
 import watchtower.automation.producer.KafkaProducerFactory;
 import watchtower.automation.provider.Provider;
-import watchtower.automation.provider.ProviderRunnable;
 import watchtower.automation.provider.RundeckProvider;
 import watchtower.automation.provider.RundeckProviderFactory;
 import watchtower.automation.provider.RundeckProviderRunnable;
@@ -67,7 +66,6 @@ public class WatchtowerAutomationModule extends AbstractModule {
           .build(RundeckProviderFactory.class));
       
       bind(Provider.class).to(RundeckProvider.class);
-      bind(ProviderRunnable.class).to(RundeckProviderRunnable.class);
     } else {
       logger.debug("Encountered unknown automation provider: {}", configuration.getAutomationProvider());
       

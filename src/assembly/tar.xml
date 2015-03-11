@@ -22,7 +22,7 @@
       <destName>watchtower-automation.jar</destName>
     </file>
     <file>
-        <source>${project.basedir}/src/deb/etc/watchtower-automation-config.yml-sample</source>
+        <source>${project.basedir}/src/deb/etc/automation-config.yml-sample</source>
         <outputDirectory>examples</outputDirectory>
     </file>
     <file>

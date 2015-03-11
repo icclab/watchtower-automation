@@ -35,7 +35,6 @@ import watchtower.automation.provider.Provider;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 public abstract class KafkaConsumer<T> implements Managed {
   private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
@@ -46,7 +45,7 @@ public abstract class KafkaConsumer<T> implements Managed {
   protected final Provider provider;
   
   @Inject
-  public KafkaConsumer(@Assisted WatchtowerAutomationConfiguration configuration, @Assisted Provider provider) {
+  public KafkaConsumer(WatchtowerAutomationConfiguration configuration, Provider provider) {
     kafkaConfiguration = configuration.getKafkaConsumerConfiguration();
     consumerConnector = Consumer.createJavaConsumerConnector(new ConsumerConfig(getKafkaProperties()));
     this.provider = provider;

@@ -13,7 +13,6 @@
  */
 package watchtower.automation.configuration;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import io.dropwizard.Configuration;
@@ -25,15 +24,12 @@ public class WatchtowerAutomationConfiguration extends Configuration {
   @NotNull
   private String automationProvider;
   
-  @Valid
   @NotNull
   private RundeckProviderConfiguration rundeckProviderConfiguration;
   
-  @Valid
   @NotNull
   private KafkaConsumerConfiguration kafkaConsumerConfiguration;
   
-  @Valid
   @NotNull
   private KafkaProducerConfiguration kafkaProducerConfiguration;
   
