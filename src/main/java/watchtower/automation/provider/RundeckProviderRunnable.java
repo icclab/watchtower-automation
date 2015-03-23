@@ -22,47 +22,54 @@ import org.rundeck.api.domain.RundeckExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import watchtower.automation.configuration.ProviderConfiguration;
 import watchtower.automation.configuration.RundeckProviderConfiguration;
 import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 public class RundeckProviderRunnable extends ProviderRunnable {
   private static final Logger logger = LoggerFactory.getLogger(RundeckProviderRunnable.class);
   private RundeckClient rundeckClient;
   private RundeckExecution rundeckExecution;
-  
+
   @SuppressWarnings("deprecation")
   @Inject
-  public RundeckProviderRunnable(@Assisted ProviderConfiguration providerConfiguration, @Assisted KafkaProducer kafkaProducer, @Assisted Job job) {
+  public RundeckProviderRunnable(@Assisted ProviderConfiguration providerConfiguration,
+      @Assisted KafkaProducer kafkaProducer, @Assisted Job job) {
     super(providerConfiguration, kafkaProducer, job);
-    
-    RundeckProviderConfiguration rundeckProviderConfiguration = (RundeckProviderConfiguration) providerConfiguration;
 
-    if (rundeckProviderConfiguration.getToken() == null || rundeckProviderConfiguration.getToken().isEmpty()) {
-      rundeckClient = new RundeckClient(rundeckProviderConfiguration.getUrl(), 
-          rundeckProviderConfiguration.getUsername(), rundeckProviderConfiguration.getPassword());
+    RundeckProviderConfiguration rundeckProviderConfiguration =
+        (RundeckProviderConfiguration) providerConfiguration;
+
+    if (rundeckProviderConfiguration.getToken() == null
+        || rundeckProviderConfiguration.getToken().isEmpty()) {
+      rundeckClient =
+          new RundeckClient(rundeckProviderConfiguration.getUrl(),
+              rundeckProviderConfiguration.getUsername(),
+              rundeckProviderConfiguration.getPassword());
     } else
-      rundeckClient = new RundeckClient(rundeckProviderConfiguration.getUrl(),
-          rundeckProviderConfiguration.getToken());
+      rundeckClient =
+          new RundeckClient(rundeckProviderConfiguration.getUrl(),
+              rundeckProviderConfiguration.getToken());
   }
 
   public void run() {
     logger.info("Starting automation job: {}", job);
     try {
       OptionsBuilder optionBuilder = new OptionsBuilder();
-    
+
       if (job.getParameters() != null)
         for (String key : job.getParameters().keySet())
           optionBuilder.addOption(key, job.getParameters().get(key));
 
-      rundeckExecution = rundeckClient.runJob(RunJobBuilder.builder()
-        .setJobId(job.getId()).setOptions(optionBuilder.toProperties())
-        .build(), 1, TimeUnit.SECONDS);
-      
+      rundeckExecution =
+          rundeckClient.runJob(
+              RunJobBuilder.builder().setJobId(job.getId())
+                  .setOptions(optionBuilder.toProperties()).build(), 1, TimeUnit.SECONDS);
+
       logger.info("Execution finished: {}", rundeckExecution.toString());
     } catch (Exception e) {
       logger.info("Failed to run automation job: {}", e);
