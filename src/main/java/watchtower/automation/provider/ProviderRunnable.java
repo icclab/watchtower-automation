@@ -16,20 +16,21 @@ package watchtower.automation.provider;
 import watchtower.automation.configuration.ProviderConfiguration;
 import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
-import watchtower.common.automation.JobResult;
+import watchtower.common.automation.JobExecution;
 
 public abstract class ProviderRunnable implements Runnable {
   protected final ProviderConfiguration providerConfiguration;
   private final KafkaProducer kafkaProducer;
   protected final Job job;
-  
-  public ProviderRunnable(ProviderConfiguration providerConfiguration, KafkaProducer kafkaProducer, Job job) {
+
+  public ProviderRunnable(ProviderConfiguration providerConfiguration, KafkaProducer kafkaProducer,
+      Job job) {
     this.providerConfiguration = providerConfiguration;
     this.kafkaProducer = kafkaProducer;
     this.job = job;
   }
-  
-  public void returnJobResults(JobResult result) {
-    kafkaProducer.send(result);
+
+  public void returnJobExecution(JobExecution execution) {
+    kafkaProducer.send(job.getIncidentId(), execution);
   }
 }

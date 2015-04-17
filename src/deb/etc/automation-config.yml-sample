@@ -50,7 +50,7 @@ kafkaConsumerConfiguration:
   
 # Kafka producer configuration
 kafkaProducerConfiguration:
-  topic: watchtower-automation-results
+  topic: watchtower-automation-executions
   metadataBrokerList: watchtower:9092
   serializerClass: kafka.serializer.StringEncoder
   partitionerClass:

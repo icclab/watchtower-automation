@@ -20,7 +20,7 @@ import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
 import watchtower.automation.consumer.KafkaCommandsConsumer;
 import watchtower.automation.health.KafkaHealthCheck;
 import watchtower.automation.provider.Provider;
-import watchtower.automation.resources.JobsResource;
+import watchtower.automation.resources.ExecutionsResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -39,7 +39,7 @@ public class WatchtowerAutomationApplication extends Application<WatchtowerAutom
   public void run(WatchtowerAutomationConfiguration configuration, Environment environment) throws Exception {
     Injector injector = Guice.createInjector(new WatchtowerAutomationModule(configuration, environment));
     
-    environment.jersey().register(injector.getInstance(JobsResource.class));
+    environment.jersey().register(injector.getInstance(ExecutionsResource.class));
     
     environment.healthChecks().register("kafka-health-check", KafkaHealthCheck.getInstance());
     

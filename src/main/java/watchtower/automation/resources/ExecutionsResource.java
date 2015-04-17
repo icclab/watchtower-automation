@@ -14,9 +14,12 @@
 package watchtower.automation.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,30 +30,50 @@ import org.slf4j.LoggerFactory;
 
 import watchtower.automation.provider.Provider;
 import watchtower.common.automation.Job;
+import watchtower.common.automation.JobExecution;
+import watchtower.common.automation.JobExecutionStatus;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 
-@Path("/v1.0/jobs")
-public class JobsResource {
-  private static final Logger logger = LoggerFactory.getLogger(JobsResource.class);
-  
-  private final Provider provider;
-  
+@Path("/v1.0/executions")
+public class ExecutionsResource {
+  private static final Logger logger = LoggerFactory.getLogger(ExecutionsResource.class);
+
+  private Provider provider;
+
   @Inject
-  public JobsResource(Provider provider) {
+  public ExecutionsResource(Provider provider) {
     this.provider = provider;
   }
-  
+
   @POST
   @Timed
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response dummy(@Context UriInfo uriInfo, Job job) {
+  public Response submitExecution(@Context UriInfo uriInfo, Job job) {
     logger.info("Received {}", job);
-    
+
     provider.runJob(job);
-    
+
+    return Response.ok().build();
+  }
+
+  @GET
+  @Timed
+  @PathParam("/{executionId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getExecution(@Context UriInfo uriInfo, @PathParam("executionId") String id,
+      @QueryParam("executionStatus") String executionStatus, String executionOutput) {
+
+    JobExecution execution =
+        new JobExecution(id, null, executionOutput, JobExecutionStatus.valueOf(executionStatus));
+
+    logger.info("Received {}", execution);
+
+    // kafkaProducer.send(execution);
+
     return Response.ok().build();
   }
 }

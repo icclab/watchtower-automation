@@ -26,6 +26,8 @@ import watchtower.automation.configuration.ProviderConfiguration;
 import watchtower.automation.configuration.RundeckProviderConfiguration;
 import watchtower.automation.producer.KafkaProducer;
 import watchtower.common.automation.Job;
+import watchtower.common.automation.JobExecution;
+import watchtower.common.automation.JobExecutionStatus;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -35,7 +37,6 @@ public class RundeckProviderRunnable extends ProviderRunnable {
   private RundeckClient rundeckClient;
   private RundeckExecution rundeckExecution;
 
-  @SuppressWarnings("deprecation")
   @Inject
   public RundeckProviderRunnable(@Assisted ProviderConfiguration providerConfiguration,
       @Assisted KafkaProducer kafkaProducer, @Assisted Job job) {
@@ -44,20 +45,25 @@ public class RundeckProviderRunnable extends ProviderRunnable {
     RundeckProviderConfiguration rundeckProviderConfiguration =
         (RundeckProviderConfiguration) providerConfiguration;
 
+    logger.info("Logging in with {}", rundeckProviderConfiguration);
+
     if (rundeckProviderConfiguration.getToken() == null
         || rundeckProviderConfiguration.getToken().isEmpty()) {
       rundeckClient =
-          new RundeckClient(rundeckProviderConfiguration.getUrl(),
-              rundeckProviderConfiguration.getUsername(),
-              rundeckProviderConfiguration.getPassword());
+          RundeckClient
+              .builder()
+              .url(rundeckProviderConfiguration.getUrl())
+              .login(rundeckProviderConfiguration.getUsername(),
+                  rundeckProviderConfiguration.getPassword()).build();
     } else
       rundeckClient =
-          new RundeckClient(rundeckProviderConfiguration.getUrl(),
-              rundeckProviderConfiguration.getToken());
+          RundeckClient.builder().url(rundeckProviderConfiguration.getUrl())
+              .token(rundeckProviderConfiguration.getToken()).build();
   }
 
   public void run() {
     logger.info("Starting automation job: {}", job);
+
     try {
       OptionsBuilder optionBuilder = new OptionsBuilder();
 
@@ -67,8 +73,15 @@ public class RundeckProviderRunnable extends ProviderRunnable {
 
       rundeckExecution =
           rundeckClient.runJob(
-              RunJobBuilder.builder().setJobId(job.getId())
+              RunJobBuilder.builder().setJobId(job.getJobId())
                   .setOptions(optionBuilder.toProperties()).build(), 1, TimeUnit.SECONDS);
+
+      JobExecution execution =
+          new JobExecution(rundeckExecution.getId().toString(), job.getId(),
+              rundeckExecution.toString(), JobExecutionStatus.valueOf(rundeckExecution.getStatus()
+                  .toString()));
+
+      returnJobExecution(execution);
 
       logger.info("Execution finished: {}", rundeckExecution.toString());
     } catch (Exception e) {
