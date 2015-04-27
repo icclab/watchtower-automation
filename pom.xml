@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>watchtower-automation</name>
-	<description>watchtower-common contains common, reusable, code for all watchtower components</description>
+	<description>watchtower-automation is a component of watchtower which handles communication with automation engines</description>
 	<url>https://github.com/icclab/watchtower-automation</url>
 	
 	<licenses>
