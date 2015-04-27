@@ -4,15 +4,33 @@
 
 	<groupId>watchtower</groupId>
 	<artifactId>watchtower-automation</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>watchtower-automation</name>
-	<url>http://maven.apache.org</url>
+	<description>watchtower-common contains common, reusable, code for all watchtower components</description>
+	<url>https://github.com/icclab/watchtower-automation</url>
+	
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<email>victor.munteanu@equillon.ro</email>
+			<name>Victor Ion Munteanu</name>
+			<url>https://github.com/nemros</url>
+			<id>nemros</id>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<watchtower.common.version>0.0.1-SNAPSHOT</watchtower.common.version>
+		<watchtower.common.version>0.1.0-SNAPSHOT</watchtower.common.version>
 		<dropwizard.version>0.7.0</dropwizard.version>
 		<guava.version>18.0</guava.version>
 		<guice.version>3.0</guice.version>
