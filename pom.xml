@@ -48,7 +48,7 @@
 		<dependency>
             <groupId>watchtower</groupId>
             <artifactId>watchtower-common</artifactId>
-            <version>0.1.0</version>
+            <version>${watchtower.common.version}</version>
         </dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
