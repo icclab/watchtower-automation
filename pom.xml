@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>watchtower</groupId>
 	<artifactId>watchtower-automation</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>watchtower-automation</name>
@@ -30,7 +29,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<watchtower.common.version>0.1.0-SNAPSHOT</watchtower.common.version>
+		<watchtower.common.version>1.0.0</watchtower.common.version>
 		<dropwizard.version>0.7.0</dropwizard.version>
 		<guava.version>18.0</guava.version>
 		<guice.version>3.0</guice.version>
@@ -42,13 +41,14 @@
 	<scm>
         <connection>scm:git:git@github.com:icclab/watchtower-automation</connection>
         <developerConnection>scm:git:git@github.com:icclab/watchtower-automation</developerConnection>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
 	<dependencies>
 		<dependency>
             <groupId>watchtower</groupId>
             <artifactId>watchtower-common</artifactId>
-            <version>${watchtower.common.version}</version>
+            <version>0.1.0</version>
         </dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
@@ -147,10 +147,8 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>watchtower.automation.WatchtowerAutomationApplication</mainClass>
 								</transformer>
 							</transformers>
