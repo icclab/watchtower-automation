@@ -3,7 +3,7 @@
 
 	<groupId>watchtower</groupId>
 	<artifactId>watchtower-automation</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>watchtower-automation</name>
@@ -29,7 +29,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<watchtower.common.version>1.0.0</watchtower.common.version>
+		<watchtower.common.version>1.0.1-SNAPSHOT</watchtower.common.version>
 		<dropwizard.version>0.7.0</dropwizard.version>
 		<guava.version>18.0</guava.version>
 		<guice.version>3.0</guice.version>
