@@ -1,0 +1,14 @@
+language: java
+
+jdk:
+  - oraclejdk7
+
+before_install:
+  - git clone https://github.com/icclab/watchtower-common.git watchtower-common
+  - cd watchtower-common
+  - mvn clean install -DskipTests=true
+  - cd ..
+  - rm -rf watchtower-common
+
+after_success:
+  - mvn clean test jacoco:report coveralls:report

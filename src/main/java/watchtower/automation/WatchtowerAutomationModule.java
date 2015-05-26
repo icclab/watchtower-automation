@@ -24,10 +24,10 @@ import watchtower.automation.consumer.KafkaCommandsConsumerRunnableFactory;
 import watchtower.automation.producer.KafkaProducer;
 import watchtower.automation.producer.KafkaProducerFactory;
 import watchtower.automation.provider.Provider;
-import watchtower.automation.provider.RundeckProvider;
-import watchtower.automation.provider.RundeckProviderFactory;
-import watchtower.automation.provider.RundeckProviderRunnable;
-import watchtower.automation.provider.RundeckProviderRunnableFactory;
+import watchtower.automation.provider.rundeck.RundeckProvider;
+import watchtower.automation.provider.rundeck.RundeckProviderFactory;
+import watchtower.automation.provider.rundeck.RundeckProviderRunnable;
+import watchtower.automation.provider.rundeck.RundeckProviderRunnableFactory;
 import io.dropwizard.setup.Environment;
 
 import com.google.inject.AbstractModule;

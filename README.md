@@ -4,6 +4,9 @@
 	<img src="https://raw.githubusercontent.com/icclab/watchtower-common/master/watchtower.png" alt="Watchtower" title="Watchtower">
 </div>
 
+[![Build Status](https://travis-ci.org/icclab/watchtower-automation.svg?branch=master)](https://travis-ci.org/icclab/watchtower-automation)
+[![Coverage Status](https://coveralls.io/repos/icclab/watchtower-automation/badge.svg?branch=master)](https://coveralls.io/r/icclab/watchtower-automation?branch=master)
+
 # Overview
 
 **watchtower-automation** is a component of **watchtower** which handles communication with automation engines. It consumes commands from the Kafka commands queue and it runs them against the automation engines.

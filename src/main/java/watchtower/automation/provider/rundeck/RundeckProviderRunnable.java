@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package watchtower.automation.provider;
+package watchtower.automation.provider.rundeck;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import watchtower.automation.configuration.ProviderConfiguration;
 import watchtower.automation.configuration.RundeckProviderConfiguration;
 import watchtower.automation.producer.KafkaProducer;
+import watchtower.automation.provider.ProviderRunnable;
 import watchtower.common.automation.Job;
 import watchtower.common.automation.JobExecution;
 import watchtower.common.automation.JobExecutionStatus;

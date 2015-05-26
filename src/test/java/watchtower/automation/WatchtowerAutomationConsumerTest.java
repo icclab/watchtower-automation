@@ -6,7 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import watchtower.automation.consumer.KafkaCommandsConsumer;
-import watchtower.automation.provider.RundeckProvider;
+import watchtower.automation.provider.rundeck.RundeckProvider;
 
 public class WatchtowerAutomationConsumerTest {
   @Mock

@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package watchtower.automation.provider;
+package watchtower.automation.provider.rundeck;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,8 @@ import com.google.inject.Singleton;
 
 import watchtower.automation.configuration.WatchtowerAutomationConfiguration;
 import watchtower.automation.producer.KafkaProducer;
+import watchtower.automation.provider.Provider;
+import watchtower.automation.provider.ProviderRunnable;
 import watchtower.common.automation.Job;
 
 @Singleton
