@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>watchtower</groupId>
@@ -9,7 +10,7 @@
 	<name>watchtower-automation</name>
 	<description>watchtower-automation is a component of watchtower which handles communication with automation engines</description>
 	<url>https://github.com/icclab/watchtower-automation</url>
-	
+
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
@@ -32,7 +33,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<watchtower.common.version>1.0.1-SNAPSHOT</watchtower.common.version>
 		<dropwizard.version>0.8.1</dropwizard.version>
-		<guava.version>18.0</guava.version>
 		<guice.version>3.0</guice.version>
 		<kafka.version>0.8.2.1</kafka.version>
 		<rundeck.version>12.0</rundeck.version>
@@ -42,34 +42,29 @@
 		<maven.jacoco.version>0.7.4.201502262128</maven.jacoco.version>
 		<maven.coveralls.version>3.1.0</maven.coveralls.version>
 	</properties>
-	
+
 	<scm>
-        <connection>scm:git:git@github.com:icclab/watchtower-automation</connection>
-        <developerConnection>scm:git:git@github.com:icclab/watchtower-automation</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+		<connection>scm:git:git@github.com:icclab/watchtower-automation</connection>
+		<developerConnection>scm:git:git@github.com:icclab/watchtower-automation</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
 	<dependencies>
 		<dependency>
-            <groupId>watchtower</groupId>
-            <artifactId>watchtower-common</artifactId>
-            <version>${watchtower.common.version}</version>
-            <exclusions>
+			<groupId>watchtower</groupId>
+			<artifactId>watchtower-common</artifactId>
+			<version>${watchtower.common.version}</version>
+			<exclusions>
 				<exclusion>
 					<groupId>org.testng</groupId>
 					<artifactId>testng</artifactId>
 				</exclusion>
 			</exclusions>
-        </dependency>
+		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>
 			<version>${dropwizard.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
@@ -93,6 +88,14 @@
 				<exclusion>
 					<groupId>com.sun.jdmk</groupId>
 					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -158,8 +161,10 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>watchtower.automation.WatchtowerAutomationApplication</mainClass>
 								</transformer>
 							</transformers>
